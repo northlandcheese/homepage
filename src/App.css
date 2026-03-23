@@ -1,0 +1,9 @@
+.only-text {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  font-size: clamp(2rem, 8vw, 6rem);
+  letter-spacing: 0.08em;
+  padding-top: 2rem;
+}
