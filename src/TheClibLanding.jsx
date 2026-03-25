@@ -8,8 +8,8 @@ const createBlock = (id, overrides = {}) => ({
   id,
   x: 40,
   y: 0,
-  vx: 2.5,
-  vy: 2,
+  vx: 5,
+  vy: 5,
   ...overrides,
 })
 
