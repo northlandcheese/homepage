@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import theClibLogo from './assets/theclib.png'
 import './theclibLanding.css'
 
@@ -26,7 +26,28 @@ function TheClibLanding({ onFinish, onExitStart }) {
   const blocksRef = useRef([createBlock(0)])
   const [blockIds, setBlockIds] = useState(() => blocksRef.current.map((block) => block.id))
   const blockElementsRef = useRef(new Map())
+  const dimensionsRef = useRef({
+    container: { width: 0, height: 0 },
+    block: { width: 0, height: 0 },
+  })
+  const needsMeasurementRef = useRef(true)
   const [isExiting, setIsExiting] = useState(false)
+
+  const measureDimensions = useCallback(() => {
+    const container = containerRef.current
+    const baseBlock = primaryBlockRef.current
+    if (!container || !baseBlock) return false
+
+    const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect()
+    const { width: blockWidth, height: blockHeight } = baseBlock.getBoundingClientRect()
+
+    dimensionsRef.current = {
+      container: { width: containerWidth, height: containerHeight },
+      block: { width: blockWidth, height: blockHeight },
+    }
+    needsMeasurementRef.current = false
+    return true
+  }, [])
 
   useEffect(() => {
     const animate = () => {
@@ -37,8 +58,23 @@ function TheClibLanding({ onFinish, onExitStart }) {
         return
       }
 
-      const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect()
-      const { width: blockWidth, height: blockHeight } = baseBlock.getBoundingClientRect()
+      if (needsMeasurementRef.current) {
+        const didMeasure = measureDimensions()
+        if (!didMeasure) {
+          frameRef.current = requestAnimationFrame(animate)
+          return
+        }
+      }
+
+      const {
+        container: { width: containerWidth, height: containerHeight },
+        block: { width: blockWidth, height: blockHeight },
+      } = dimensionsRef.current
+
+      if (containerWidth === 0 || containerHeight === 0 || blockWidth === 0 || blockHeight === 0) {
+        frameRef.current = requestAnimationFrame(animate)
+        return
+      }
 
       const currentBlocks = blocksRef.current
       const totalBlocks = currentBlocks.length
@@ -103,6 +139,17 @@ function TheClibLanding({ onFinish, onExitStart }) {
       if (frameRef.current) {
         cancelAnimationFrame(frameRef.current)
       }
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleResize = () => {
+      needsMeasurementRef.current = true
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
     }
   }, [])
 
