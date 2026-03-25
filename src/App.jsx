@@ -1,12 +1,14 @@
 import { useState } from 'react'
 import './App.css'
 import centeredLogo from './assets/centered_logo.png'
+import theClibLogo from './assets/theclib.png'
 import roulyEp1 from './assets/rouly_ep1.png'
 import roulyEp2 from './assets/rouly_ep2.png'
 import roulyEp3 from './assets/rouly_ep3.png'
 import clibTv1 from './assets/clib_tv1.png'
 import clibTv2 from './assets/clib_tv2.png'
 import clibTv3 from './assets/clib_tv3.png'
+import heyoliLogo from './assets/heyoli.png'
 import TheClibLanding from './TheClibLanding'
 
 function App() {
@@ -22,14 +24,10 @@ function App() {
         />
       )}
       <main className={`only-text ${shouldBlurPage ? 'only-text--masked' : ''}`} aria-label="Chūsha theclib at">
-        <nav className="site-nav" aria-label="Site navigation">
-          <div className="site-nav__brand">
-            <img src={centeredLogo} alt="蟲社標誌" className="site-nav__logo" />
-          </div>
-        </nav>
         <div className="title-block">
           <div className="title-text-wrapper">
             <span className="title-text">蟲社The Clib!</span>
+            <img src={centeredLogo} alt="蟲社標誌" className="title-logo" />
           </div>
           <section className="description-box" aria-label="Intro description">
             <p>蟲社是一個由四隻蟲組成的立案之演藝團體。</p>
@@ -76,11 +74,24 @@ function App() {
           </a>
           <hr className="title-divider" />
           <a className="link-block" href="#" target="_blank" rel="noopener noreferrer">
-            <span className="link-block__text">🚧zooooooooooooooooo🚧</span>
+            <span className="link-block__text">🚧zooooooooooooooooooooooooooooooooo🚧</span>
           </a>
           <hr className="title-divider" />
           <a className="link-block" href="https://heyoli.theclib.com/" target="_blank" rel="noopener noreferrer">
-            <span className="link-block__text">OLI你好</span>
+            <span className="link-block__text">
+              OLI你好
+            </span>
+            <img
+                src={heyoliLogo}
+                alt="Heyoli logo"
+                style={{
+                  height: '1.5em',
+                  marginLeft: '0.35rem',
+                  verticalAlign: 'middle',
+                  borderRadius: '10px'
+                }}
+              />
+            <span className="link-block__text">分享最近的想法</span>
             <div className="robot-container robot-container--inline" aria-hidden="true">
               <div className="robot-shape robot-shape--inline">
                 <div className="robot-head"></div>
@@ -97,14 +108,15 @@ function App() {
                 </div>
               </div>
             </div>
-            <span className="link-block__text">還不存在的第五個成員</span>
+            <span className="link-block__text">目前還不存在的第五個成員</span>
           </a>
           <hr className="title-divider" />
           <a className="link-block link-block--algorithm" href="https://algorithm.theclib.com/" target="_blank" rel="noopener noreferrer">
             <span className="link-block__text">蟲社演算法</span>
             <span className="office-tag">Office Space (電影)</span>
-            <span className="link-block__text">蟲社互推的好東西</span>
+            <span className="link-block__text">幫忙劃個重點</span>
             <span className="linda-tag">琳達！琳達！ (電影)</span>
+            <span className="link-block__text">蟲社互推的好東西</span>
           </a>
           <hr className="title-divider" />
         </nav>
@@ -123,7 +135,20 @@ function App() {
           </div>
         </div>
         <div className="link-block link-block--logo" aria-hidden="true">
-          <div className="logo-strip"></div>
+          <div className="logo-strip">
+            <img src={theClibLogo} alt="蟲社標誌" className="logo-strip__tile" />
+            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
+            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
+            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
+            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
+            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
+            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
+            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
+            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
+            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
+            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
+            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
+          </div>
         </div>
       </main>
     </>
