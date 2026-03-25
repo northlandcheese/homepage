@@ -72,7 +72,7 @@ function App() {
           </a>
           <hr className="title-divider" />
           <a className="link-block" href="#" target="_blank" rel="noopener noreferrer">
-            <span className="link-block__text">🚧zoooooooooo🚧</span>
+            <span className="link-block__text">🚧zooooooooooooooooo🚧</span>
           </a>
           <hr className="title-divider" />
           <a className="link-block" href="https://heyoli.theclib.com/" target="_blank" rel="noopener noreferrer">
@@ -105,18 +105,26 @@ function App() {
           <hr className="title-divider" />
         </nav>
         <div className="contact-note" aria-label="Contact note">
+          <pre className="contact-note__baguette" aria-hidden="true">
+            {[
+              '        _________        ',
+              '   ____/========\\____   ',
+              '  / __  __  __  __  \\   ',
+              ' | /  \\/  \\/  \\/  \\ |  ',
+              ' | \\__/\\__/\\__/\\__/ |  ',
+              '  \\_________________/   '
+            ].join('\n')}
+          </pre>
           <p>oootheclibooo@gmail.com</p>
           <div className="contact-note__social">
             <a href="https://www.instagram.com/oootheclibooo/" target="_blank" rel="noopener noreferrer">
               Instagram
             </a>
-            <span aria-hidden="true">/</span>
+            <a href="https://www.facebook.com/profile.php?id=61578563523698" target="_blank" rel="noopener noreferrer">
+              Facebook
+            </a>
             <a href="https://www.youtube.com/@%E8%9F%B2%E7%A4%BE" target="_blank" rel="noopener noreferrer">
               YouTube
-            </a>
-            <span aria-hidden="true">/</span>
-            <a href="https://theclib.com" target="_blank" rel="noopener noreferrer">
-              Website
             </a>
           </div>
         </div>

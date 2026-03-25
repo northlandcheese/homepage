@@ -8,8 +8,8 @@ const createBlock = (id, overrides = {}) => ({
   id,
   x: 40,
   y: 0,
-  vx: 1.8,
-  vy: 1.5,
+  vx: 2.5,
+  vy: 2,
   ...overrides,
 })
 
@@ -88,13 +88,25 @@ function TheClibLanding({ onFinish, onExitStart }) {
     }
   }, [])
 
+  useEffect(() => {
+    if (!isExiting || !containerRef.current) return
+
+    const node = containerRef.current
+    const handleTransitionEnd = (event) => {
+      if (event.target !== node || event.propertyName !== 'opacity') return
+      onFinish?.()
+    }
+
+    node.addEventListener('transitionend', handleTransitionEnd)
+    return () => {
+      node.removeEventListener('transitionend', handleTransitionEnd)
+    }
+  }, [isExiting, onFinish])
+
   const handleClick = () => {
     if (isExiting) return
     setIsExiting(true)
     onExitStart?.()
-    setTimeout(() => {
-      onFinish?.()
-    }, 600)
   }
 
   return (
@@ -104,8 +116,8 @@ function TheClibLanding({ onFinish, onExitStart }) {
       onClick={handleClick}
     >
       <div className="theclib-overlay__hint">
-        <span>點一下</span>
-        <span>click</span>
+        <span>進入</span>
+        <span>enter</span>
       </div>
       {blocks.map((block, index) => (
         <div
