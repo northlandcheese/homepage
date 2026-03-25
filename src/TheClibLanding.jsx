@@ -23,58 +23,76 @@ function TheClibLanding({ onFinish, onExitStart }) {
   const primaryBlockRef = useRef(null)
   const frameRef = useRef(null)
   const idRef = useRef(1)
-  const [blocks, setBlocks] = useState([createBlock(0)])
+  const blocksRef = useRef([createBlock(0)])
+  const [blockIds, setBlockIds] = useState(() => blocksRef.current.map((block) => block.id))
+  const blockElementsRef = useRef(new Map())
   const [isExiting, setIsExiting] = useState(false)
 
   useEffect(() => {
     const animate = () => {
-      setBlocks((previousBlocks) => {
-        const container = containerRef.current
-        const baseBlock = primaryBlockRef.current
-        if (!container || !baseBlock) return previousBlocks
+      const container = containerRef.current
+      const baseBlock = primaryBlockRef.current
+      if (!container || !baseBlock) {
+        frameRef.current = requestAnimationFrame(animate)
+        return
+      }
 
-        const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect()
-        const { width: blockWidth, height: blockHeight } = baseBlock.getBoundingClientRect()
+      const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect()
+      const { width: blockWidth, height: blockHeight } = baseBlock.getBoundingClientRect()
 
-        const clones = []
-        const updatedBlocks = previousBlocks.map((block) => {
-          let { x, y, vx, vy } = block
+      const currentBlocks = blocksRef.current
+      const totalBlocks = currentBlocks.length
+      const clones = []
 
-          x += vx
-          y += vy
+      const updatedBlocks = currentBlocks.map((block) => {
+        let { x, y, vx, vy } = block
 
-          let bounced = false
+        x += vx
+        y += vy
 
-          if (x <= 0 || x + blockWidth >= containerWidth) {
-            vx = -vx
-            x = Math.min(Math.max(0, x), containerWidth - blockWidth)
-            bounced = true
-          }
+        let bounced = false
 
-          if (y <= 0 || y + blockHeight >= containerHeight) {
-            vy = -vy
-            y = Math.min(Math.max(0, y), containerHeight - blockHeight)
-            bounced = true
-          }
+        if (x <= 0 || x + blockWidth >= containerWidth) {
+          vx = -vx
+          x = Math.min(Math.max(0, x), containerWidth - blockWidth)
+          bounced = true
+        }
 
-          if (bounced && block.id === 0 && previousBlocks.length + clones.length < MAX_BLOCKS) {
-            clones.push(
-              createBlock(idRef.current++, {
-                vx: randomVelocity(),
-                vy: randomVelocity(),
-              }),
-            )
-          }
+        if (y <= 0 || y + blockHeight >= containerHeight) {
+          vy = -vy
+          y = Math.min(Math.max(0, y), containerHeight - blockHeight)
+          bounced = true
+        }
 
-          return { ...block, x, y, vx, vy }
-        })
+        if (bounced && block.id === 0 && totalBlocks + clones.length < MAX_BLOCKS) {
+          clones.push(
+            createBlock(idRef.current++, {
+              vx: randomVelocity(),
+              vy: randomVelocity(),
+            }),
+          )
+        }
 
-        if (!clones.length) return updatedBlocks
-        const remainingSlots = Math.max(0, MAX_BLOCKS - updatedBlocks.length)
-        if (remainingSlots === 0) return updatedBlocks
+        const node = blockElementsRef.current.get(block.id)
+        if (node) {
+          node.style.transform = `translate(${x}px, ${y}px)`
+        }
 
-        return [...updatedBlocks, ...clones.slice(0, remainingSlots)]
+        return { ...block, x, y, vx, vy }
       })
+
+      let nextBlocks = updatedBlocks
+
+      if (clones.length) {
+        const remainingSlots = Math.max(0, MAX_BLOCKS - updatedBlocks.length)
+        if (remainingSlots > 0) {
+          const limitedClones = clones.slice(0, remainingSlots)
+          nextBlocks = [...updatedBlocks, ...limitedClones]
+          setBlockIds((previousIds) => [...previousIds, ...limitedClones.map((clone) => clone.id)])
+        }
+      }
+
+      blocksRef.current = nextBlocks
 
       frameRef.current = requestAnimationFrame(animate)
     }
@@ -119,14 +137,29 @@ function TheClibLanding({ onFinish, onExitStart }) {
         <span>進入</span>
         <span>enter</span>
       </div>
-      {blocks.map((block, index) => (
+      {blockIds.map((blockId, index) => {
+        const blockData = blocksRef.current.find((block) => block.id === blockId)
+        const position = blockData ? { x: blockData.x, y: blockData.y } : { x: 0, y: 0 }
+        return (
         <div
-          key={block.id}
-          ref={index === 0 ? primaryBlockRef : null}
+          key={blockId}
+          ref={(node) => {
+            if (node) {
+              blockElementsRef.current.set(blockId, node)
+              if (blockId === 0) {
+                primaryBlockRef.current = node
+              }
+            } else {
+              blockElementsRef.current.delete(blockId)
+              if (blockId === 0) {
+                primaryBlockRef.current = null
+              }
+            }
+          }}
           className="theclib-block"
           style={{
-            transform: `translate(${block.x}px, ${block.y}px)`,
-            zIndex: block.id === 0 ? 2000 : 10,
+            transform: `translate(${position.x}px, ${position.y}px)`,
+            zIndex: blockId === 0 ? 2000 : 10,
           }}
         >
           <div className="theclib-badge">
@@ -135,7 +168,8 @@ function TheClibLanding({ onFinish, onExitStart }) {
             <div className="theclib-badge__subtitle">The Clib!</div>
           </div>
         </div>
-      ))}
+        )
+      })}
     </div>
   )
 }
