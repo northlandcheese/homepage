@@ -11,29 +11,25 @@ import TheClibLanding from './TheClibLanding'
 
 function App() {
   const [showLanding, setShowLanding] = useState(true)
-  const [hasInteracted, setHasInteracted] = useState(false)
-  const [shouldBlurPage, setShouldBlurPage] = useState(false)
+  const [shouldBlurPage, setShouldBlurPage] = useState(true)
 
   return (
     <>
       {showLanding && (
         <TheClibLanding
-          onExitStart={() => {
-            setHasInteracted(true)
-            setShouldBlurPage(true)
-          }}
-          onFinish={() => {
-            setShouldBlurPage(false)
-            setShowLanding(false)
-          }}
+          onExitStart={() => setShouldBlurPage(false)}
+          onFinish={() => setShowLanding(false)}
         />
       )}
-      {hasInteracted && (
-        <main className={`only-text ${shouldBlurPage ? 'only-text--masked' : ''}`} aria-label="Chūsha theclib at">
+      <main className={`only-text ${shouldBlurPage ? 'only-text--masked' : ''}`} aria-label="Chūsha theclib at">
+        <nav className="site-nav" aria-label="Site navigation">
+          <div className="site-nav__brand">
+            <img src={centeredLogo} alt="蟲社標誌" className="site-nav__logo" />
+          </div>
+        </nav>
         <div className="title-block">
           <div className="title-text-wrapper">
             <span className="title-text">蟲社The Clib!</span>
-            <img src={centeredLogo} alt="蟲社標誌" className="title-logo" />
           </div>
           <section className="description-box" aria-label="Intro description">
             <p>蟲社是一個由四隻蟲組成的立案之演藝團體。</p>
@@ -113,15 +109,6 @@ function App() {
           <hr className="title-divider" />
         </nav>
         <div className="contact-note" aria-label="Contact note">
-          <pre className="contact-note__baguette" aria-hidden="true">
-            {String.raw`
-   __/""""\__
-  /  _  _  _  \
- |  / \/ \/ \/ |
- |  \_/\_/\_/  |
-  \__-_-_-_-__/`
-            }
-          </pre>
           <p>oootheclibooo@gmail.com</p>
           <div className="contact-note__social">
             <a href="https://www.instagram.com/oootheclibooo/" target="_blank" rel="noopener noreferrer">
@@ -135,8 +122,10 @@ function App() {
             </a>
           </div>
         </div>
-        </main>
-      )}
+        <div className="link-block link-block--logo" aria-hidden="true">
+          <div className="logo-strip"></div>
+        </div>
+      </main>
     </>
   )
 }
