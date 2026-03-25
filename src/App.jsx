@@ -11,17 +11,25 @@ import TheClibLanding from './TheClibLanding'
 
 function App() {
   const [showLanding, setShowLanding] = useState(true)
-  const [shouldBlurPage, setShouldBlurPage] = useState(true)
+  const [hasInteracted, setHasInteracted] = useState(false)
+  const [shouldBlurPage, setShouldBlurPage] = useState(false)
 
   return (
     <>
       {showLanding && (
         <TheClibLanding
-          onExitStart={() => setShouldBlurPage(false)}
-          onFinish={() => setShowLanding(false)}
+          onExitStart={() => {
+            setHasInteracted(true)
+            setShouldBlurPage(true)
+          }}
+          onFinish={() => {
+            setShouldBlurPage(false)
+            setShowLanding(false)
+          }}
         />
       )}
-      <main className={`only-text ${shouldBlurPage ? 'only-text--masked' : ''}`} aria-label="Chūsha theclib at">
+      {hasInteracted && (
+        <main className={`only-text ${shouldBlurPage ? 'only-text--masked' : ''}`} aria-label="Chūsha theclib at">
         <div className="title-block">
           <div className="title-text-wrapper">
             <span className="title-text">蟲社The Clib!</span>
@@ -106,14 +114,13 @@ function App() {
         </nav>
         <div className="contact-note" aria-label="Contact note">
           <pre className="contact-note__baguette" aria-hidden="true">
-            {[
-              '        _________        ',
-              '   ____/========\\____   ',
-              '  / __  __  __  __  \\   ',
-              ' | /  \\/  \\/  \\/  \\ |  ',
-              ' | \\__/\\__/\\__/\\__/ |  ',
-              '  \\_________________/   '
-            ].join('\n')}
+            {String.raw`
+   __/""""\__
+  /  _  _  _  \
+ |  / \/ \/ \/ |
+ |  \_/\_/\_/  |
+  \__-_-_-_-__/`
+            }
           </pre>
           <p>oootheclibooo@gmail.com</p>
           <div className="contact-note__social">
@@ -128,7 +135,8 @@ function App() {
             </a>
           </div>
         </div>
-      </main>
+        </main>
+      )}
     </>
   )
 }
