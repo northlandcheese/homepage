@@ -332,6 +332,7 @@ function App() {
         </div>
         <div className="link-block link-block--logo" aria-hidden="true">
           <span className="dashed-line"></span>
+          <span className="dashed-line dashed-line--second"></span>
         </div>
       </main>
     </>

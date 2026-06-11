@@ -611,7 +611,7 @@
 
 .dashed-line {
   position: absolute;
-  top: 10%;
+  top: 1%;
   left: 0;
   width: 100%;
   height: 1px;
@@ -624,14 +624,13 @@
   animation: move-dashes-left 0.8s linear infinite;
 }
 
+.dashed-line--second {
+  top: calc(1% + 10px);
+  animation-delay: -0.4s;
+}
+
 @keyframes move-dashes-left {
   to {
     background-position-x: -16px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .dashed-line {
-    animation: none;
   }
 }
