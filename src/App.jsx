@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import centeredLogo from './assets/centered_logo.png'
-import theClibLogo from './assets/theclib.png'
 import roulyEp1 from './assets/rouly_ep1.png'
 import roulyEp2 from './assets/rouly_ep2.png'
 import roulyEp3 from './assets/rouly_ep3.png'
@@ -30,14 +29,14 @@ const getPageFromPath = () => {
 const members = [
   {
     name: 'CT',
-    role: '攝影、劇場影像',
-    description: '獅子座。喜歡貓咪跟啤酒。',
+    role: '攝影、剪輯',
+    description: '獅子座。最近被四個人說像淡粉色。',
     photo: ctPhoto
   },
   {
     name: 'L',
     role: '表演藝術、編劇、DJ',
-    description: '摩羯座。在追《權力遊戲》。',
+    description: '摩羯座。偏愛出風頭。',
     photo: lPhoto
   },
   {
@@ -57,13 +56,26 @@ const members = [
 const services = [
   {
     title: '創作閒聊',
-    description: '請我們喝一杯酒。'
+    description: '請我們喝一杯酒'
   },
   {
     title: '蟲社工作坊',
-    description: '學習活動。'
+    description: '跟我們一起學習'
+  },
+  {
+    title: '蟲社MEMO',
+    description: '請我們看一場演出'
   },
 ]
+
+const pageSubtitles = {
+  home: ['蟲社是一個由四隻蟲組成的立案之演藝團體。'],
+  members: ['蟲社的四隻蟲。'],
+  services: [
+    '蟲社來服務你了',
+    '服務請私訊IG洽談或寄信至oootheclibooo@gmail.com'
+  ]
+}
 
 function App() {
   const [showLanding, setShowLanding] = useState(true)
@@ -77,7 +89,7 @@ function App() {
   const showServices = currentPage === 'services'
   const showMembers = currentPage === 'members'
   const pageTitle = currentPage === 'members' ? '成員' : currentPage === 'services' ? '服務項目' : '蟲社The Clib!'
-  const pageSubtitle = currentPage === 'members' ? '蟲社的四隻蟲。' : currentPage === 'services' ? '蟲社來服務你了。' : '蟲社是一個由四隻蟲組成的立案之演藝團體。'
+  const pageSubtitle = pageSubtitles[currentPage]
 
   useEffect(() => {
     const handleScroll = () => {
@@ -156,14 +168,19 @@ function App() {
           </a>
         </nav>
       </header>
-      <main className={`only-text ${shouldBlurPage ? 'only-text--masked' : ''}`} aria-label="Chūsha theclib at">
+      <main
+        className={`only-text ${showServices ? 'only-text--services' : ''} ${shouldBlurPage ? 'only-text--masked' : ''}`}
+        aria-label="Chūsha theclib at"
+      >
         <div className="title-block">
           <div className="title-text-wrapper">
             <span className="title-text">{pageTitle}</span>
             <img src={centeredLogo} alt="蟲社標誌" className="title-logo" />
           </div>
           <section className="description-box" aria-label="Intro description">
-            <p>{pageSubtitle}</p>
+            {pageSubtitle.map((subtitle) => (
+              <p key={subtitle}>{subtitle}</p>
+            ))}
           </section>
         </div>
         <hr className="title-divider" />
@@ -212,7 +229,7 @@ function App() {
           </a>
           <hr className="title-divider" />
           <a className="link-block" href="#" target="_blank" rel="noopener noreferrer">
-            <span className="link-block__text">🚧德國電子大樂團🚧</span>
+            <span className="link-block__text">🎹德國電子大樂團🎹</span>
           </a>
           <hr className="title-divider" />
           <a className="link-block" href="https://heyoli.theclib.com/" target="_blank" rel="noopener noreferrer">
@@ -314,20 +331,7 @@ function App() {
           </div>
         </div>
         <div className="link-block link-block--logo" aria-hidden="true">
-          <div className="logo-strip">
-            <img src={theClibLogo} alt="蟲社標誌" className="logo-strip__tile" />
-            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
-            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
-            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
-            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
-            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
-            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
-            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
-            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
-            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
-            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
-            <img src={theClibLogo} alt="" aria-hidden="true" className="logo-strip__tile" />
-          </div>
+          <span className="dashed-line"></span>
         </div>
       </main>
     </>
