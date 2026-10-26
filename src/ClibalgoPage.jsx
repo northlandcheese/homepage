@@ -36,7 +36,7 @@ function ClibalgoPage() {
         select: 'id,title,category,link,created_at',
         order: 'created_at.desc',
       })
-      const response = await fetch(`${supabaseUrl}/rest/v1/clibalgo?${query}`, {
+      const response = await fetch(`${supabaseUrl}/rest/v1/clibalgo_duplicate?${query}`, {
         headers: {
           apikey: supabaseAnonKey,
           Authorization: `Bearer ${supabaseAnonKey}`,

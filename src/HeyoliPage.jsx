@@ -17,7 +17,7 @@ function HeyoliPage() {
         select: 'content',
         order: 'created_at.desc',
       })
-      const response = await fetch(`${supabaseUrl}/rest/v1/comments?${query}`, {
+      const response = await fetch(`${supabaseUrl}/rest/v1/comments_duplicate?${query}`, {
         headers: {
           apikey: supabaseAnonKey,
           Authorization: `Bearer ${supabaseAnonKey}`,
