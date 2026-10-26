@@ -13,17 +13,46 @@ import lPhoto from './assets/l_photo.png'
 import jPhoto from './assets/j_photo.png'
 import dPhoto from './assets/d_photo.png'
 import TheClibLanding from './TheClibLanding'
+import HeyoliPage from './HeyoliPage'
+import ClibalgoPage from './ClibalgoPage'
+
+const comingSoonPages = {
+  bandComingSoon: {
+    path: '/german-electronic-band',
+    title: '德國電子大樂團'
+  }
+}
+
+const pagePaths = Object.fromEntries([
+  ...Object.entries(comingSoonPages).map(([page, config]) => [page, config.path]),
+  ['notFound', '/404']
+])
 
 const getPageFromPath = () => {
-  if (window.location.pathname === '/members') {
+  const path = window.location.pathname
+
+  if (path === '/members') {
     return 'members'
   }
 
-  if (window.location.pathname === '/services') {
+  if (path === '/services') {
     return 'services'
   }
 
-  return 'home'
+  if (path === '/heyoli') {
+    return 'heyoli'
+  }
+
+  if (path === '/clibalgo') {
+    return 'clibalgo'
+  }
+
+  if (path === '/') {
+    return 'home'
+  }
+
+  const matchedPage = Object.entries(pagePaths).find(([, pagePath]) => pagePath === path)
+  return matchedPage?.[0] ?? 'notFound'
 }
 
 const members = [
@@ -56,15 +85,15 @@ const members = [
 const services = [
   {
     title: '創作閒聊',
-    description: '請我們喝一杯酒'
+    description: '喝一杯酒'
   },
   {
     title: '蟲社工作坊',
-    description: '跟我們一起學習'
+    description: '一起學習'
   },
   {
     title: '蟲社MEMO',
-    description: '請我們看一場演出'
+    description: '看一場演出'
   },
 ]
 
@@ -75,6 +104,26 @@ const pageSubtitles = {
     '蟲社來服務你了',
     '服務請私訊IG洽談或寄信至oootheclibooo@gmail.com'
   ]
+}
+
+function ComingSoonPage({ title }) {
+  return (
+    <section className="coming-soon-section" aria-label="Coming soon page">
+      <h2 className="coming-soon-section__name">{title}</h2>
+      <p className="coming-soon-section__text">coming soon</p>
+    </section>
+  )
+}
+
+function NotFoundPage({ onHomeClick }) {
+  return (
+    <section className="not-found-section" aria-label="404 page">
+      <p className="not-found-section__code">404</p>
+      <a className="not-found-section__home-link" href="/" onClick={onHomeClick}>
+        回首頁
+      </a>
+    </section>
+  )
 }
 
 function App() {
@@ -88,8 +137,21 @@ function App() {
   const showHomeLinks = currentPage === 'home'
   const showServices = currentPage === 'services'
   const showMembers = currentPage === 'members'
-  const pageTitle = currentPage === 'members' ? '成員' : currentPage === 'services' ? '服務項目' : '蟲社The Clib!'
-  const pageSubtitle = pageSubtitles[currentPage]
+  const showHeyoli = currentPage === 'heyoli'
+  const showClibalgo = currentPage === 'clibalgo'
+  const comingSoonPage = comingSoonPages[currentPage]
+  const showComingSoon = Boolean(comingSoonPage)
+  const showNotFound = currentPage === 'notFound'
+  const pageTitle = currentPage === 'members'
+    ? '成員'
+    : currentPage === 'services'
+      ? '服務項目'
+      : showComingSoon
+        ? ''
+        : showNotFound
+          ? '404'
+          : '蟲社The Clib!'
+  const pageSubtitle = showComingSoon ? [] : showNotFound ? ['404404404'] : pageSubtitles[currentPage] ?? []
 
   useEffect(() => {
     const handleScroll = () => {
@@ -124,7 +186,7 @@ function App() {
 
   const routeToPage = (event, page) => {
     event.preventDefault()
-    const nextPath = page === 'home' ? '/' : `/${page}`
+    const nextPath = page === 'home' ? '/' : pagePaths[page] ?? `/${page}`
     window.history.pushState({}, '', nextPath)
     setCurrentPage(page)
     setIsMenuOpen(false)
@@ -168,7 +230,7 @@ function App() {
           </a>
         </nav>
       </header>
-      <main
+      {showHeyoli ? <HeyoliPage /> : showClibalgo ? <ClibalgoPage /> : <main
         className={`only-text ${showServices ? 'only-text--services' : ''} ${shouldBlurPage ? 'only-text--masked' : ''}`}
         aria-label="Chūsha theclib at"
       >
@@ -224,15 +286,15 @@ function App() {
             <img src={clibTv2} alt="Clib!TV cover art 2" className="link-block__thumb" />
           </a>
           <hr className="title-divider" />
-          <a className="link-block" href="#" target="_blank" rel="noopener noreferrer">
-            <span className="link-block__text">🚧zooooooooooooooooooooooooooooooooo🚧</span>
+          <a className="link-block" href="https://zoooo.theclib.com/" target="_blank" rel="noopener noreferrer">
+            <span className="link-block__text">zoooooooooooooooooooooooooooooooooooooo</span>
           </a>
           <hr className="title-divider" />
-          <a className="link-block" href="#" target="_blank" rel="noopener noreferrer">
+          <a className="link-block" href="/german-electronic-band" onClick={(event) => routeToPage(event, 'bandComingSoon')}>
             <span className="link-block__text">🎹德國電子大樂團🎹</span>
           </a>
           <hr className="title-divider" />
-          <a className="link-block" href="https://heyoli.theclib.com/" target="_blank" rel="noopener noreferrer">
+          <a className="link-block" href="/heyoli" onClick={(event) => routeToPage(event, 'heyoli')}>
             <span className="link-block__text">
               OLI你好
             </span>
@@ -266,7 +328,7 @@ function App() {
             <span className="link-block__text">目前還不存在的第五個成員</span>
           </a>
           <hr className="title-divider" />
-          <a className="link-block link-block--algorithm" href="https://algorithm.theclib.com/" target="_blank" rel="noopener noreferrer">
+          <a className="link-block link-block--algorithm" href="/clibalgo" onClick={(event) => routeToPage(event, 'clibalgo')}>
             <span className="link-block__text">蟲社演算法</span>
             <span className="office-tag">Office Space (電影)</span>
             <span className="link-block__text">幫忙劃個重點</span>
@@ -300,6 +362,8 @@ function App() {
             ))}
           </section>
         )}
+        {showComingSoon && <ComingSoonPage title={comingSoonPage.title} />}
+        {showNotFound && <NotFoundPage onHomeClick={(event) => routeToPage(event, 'home')} />}
         <div className="contact-note" aria-label="Contact note">
           <button className="contact-note__email" type="button" onClick={copyEmail}>
             {hasCopiedEmail ? 'Copied' : emailAddress}
@@ -334,7 +398,7 @@ function App() {
           <span className="dashed-line"></span>
           <span className="dashed-line dashed-line--second"></span>
         </div>
-      </main>
+      </main>}
     </>
   )
 }

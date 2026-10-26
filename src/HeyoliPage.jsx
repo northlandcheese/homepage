@@ -1,0 +1,47 @@
+import { useEffect, useState } from 'react'
+
+function HeyoliPage() {
+  const [texts, setTexts] = useState([])
+
+  useEffect(() => {
+    const loadHeyoliText = async () => {
+      const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+      const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+      if (!supabaseUrl || !supabaseAnonKey) {
+        console.error('Supabase credentials are missing in environment variables.')
+        return
+      }
+
+      const query = new URLSearchParams({
+        select: 'content',
+        order: 'created_at.desc',
+      })
+      const response = await fetch(`${supabaseUrl}/rest/v1/comments?${query}`, {
+        headers: {
+          apikey: supabaseAnonKey,
+          Authorization: `Bearer ${supabaseAnonKey}`,
+        },
+      })
+
+      if (!response.ok) {
+        console.error('Failed to load Heyoli text', response.status)
+        return
+      }
+
+      const data = await response.json()
+      setTexts(data.map((row) => row.content).filter(Boolean))
+    }
+
+    loadHeyoliText()
+  }, [])
+
+  return (
+    <main className="heyoli-page">
+      <h1>OLI你好</h1>
+      {texts.join(' ')}
+    </main>
+  )
+}
+
+export default HeyoliPage

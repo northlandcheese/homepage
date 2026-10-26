@@ -3,6 +3,57 @@
   box-sizing: border-box;
 }
 
+.clibalgo-page {
+  box-sizing: border-box;
+  width: min(100%, 56rem);
+  min-height: 100vh;
+  padding: 1rem;
+  margin: 0 auto;
+  background: transparent;
+  color: #000;
+  overflow-x: hidden;
+  text-align: center;
+}
+
+.clibalgo-entry {
+  display: inline-block;
+  padding: 0 0.25rem;
+  border: 0.5px solid #000;
+  white-space: nowrap;
+}
+
+.clibalgo-item {
+  display: inline-block;
+  margin: 0.1rem 0;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.clibalgo-page a {
+  color: #000;
+  text-decoration: none;
+}
+
+.clibalgo-page h1 {
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
+  font-weight: 400;
+}
+
+.heyoli-page {
+  box-sizing: border-box;
+  width: min(100%, 72rem);
+  min-height: 100vh;
+  padding: 0 1.5rem;
+  margin: 0 auto;
+  color: #000;
+  text-align: left;
+}
+
+.heyoli-page h1 {
+  font-weight: 400;
+  text-align: center;
+}
+
 .top-menu {
   position: fixed;
   top: 0;
@@ -173,6 +224,63 @@
 
 .description-box p + p {
   margin-top: 0.35rem;
+}
+
+.coming-soon-section {
+  width: 100%;
+  min-height: clamp(18rem, 50vh, 34rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+  padding: clamp(0rem, 1.5vw, 1.25rem);
+  border-bottom: 1px solid #000;
+}
+
+.coming-soon-section__name {
+  margin: 0;
+  font-size: clamp(2rem, 8vw, 7rem);
+  line-height: 0.95;
+  font-weight: 400;
+}
+
+.coming-soon-section__text {
+  margin: 0;
+  font-size: clamp(2rem, 10vw, 9rem);
+  line-height: 0.85;
+  letter-spacing: 0;
+}
+
+.not-found-section {
+  width: 100%;
+  min-height: clamp(18rem, 50vh, 34rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  padding: clamp(1rem, 3vw, 2rem);
+  border-bottom: 1px solid #000;
+}
+
+.not-found-section__code {
+  margin: 0;
+  font-size: clamp(7rem, 32vw, 28rem);
+  line-height: 0.78;
+  letter-spacing: 0;
+}
+
+.not-found-section__home-link {
+  width: max-content;
+  max-width: 100%;
+  color: inherit;
+  font-size: clamp(1.5rem, 6vw, 5rem);
+  line-height: 1;
+  text-decoration: none;
+}
+
+.not-found-section__home-link:hover,
+.not-found-section__home-link:focus {
+  color: #6e6e6e;
 }
 
 .title-divider {
