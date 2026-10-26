@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-function HeyoliPage() {
+function HeyoliPage({ contactNote }) {
   const [texts, setTexts] = useState([])
 
   useEffect(() => {
@@ -38,8 +38,12 @@ function HeyoliPage() {
 
   return (
     <main className="heyoli-page">
-      <h1>OLI你好</h1>
-      {texts.join(' ')}
+      <p className="heyoli-page__text">{texts.join(' ')}</p>
+      {contactNote}
+      <div className="link-block link-block--logo" aria-hidden="true">
+        <span className="dashed-line"></span>
+        <span className="dashed-line dashed-line--second"></span>
+      </div>
     </main>
   )
 }

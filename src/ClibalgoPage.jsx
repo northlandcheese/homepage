@@ -19,7 +19,7 @@ function ClibalgoEntry({ entry }) {
   )
 }
 
-function ClibalgoPage() {
+function ClibalgoPage({ contactNote }) {
   const [entries, setEntries] = useState([])
 
   useEffect(() => {
@@ -56,8 +56,14 @@ function ClibalgoPage() {
 
   return (
     <main className="clibalgo-page">
-      <h1>蟲社演算法</h1>
-      {entries.map((entry) => <ClibalgoEntry key={entry.id} entry={entry} />)}
+      <div className="clibalgo-list">
+        {entries.map((entry) => <ClibalgoEntry key={entry.id} entry={entry} />)}
+      </div>
+      {contactNote}
+      <div className="link-block link-block--logo" aria-hidden="true">
+        <span className="dashed-line"></span>
+        <span className="dashed-line dashed-line--second"></span>
+      </div>
     </main>
   )
 }

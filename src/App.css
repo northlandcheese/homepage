@@ -1,3 +1,8 @@
+html,
+body {
+  overflow-x: hidden;
+}
+
 .only-text,
 .only-text * {
   box-sizing: border-box;
@@ -7,11 +12,13 @@
   box-sizing: border-box;
   width: min(100%, 56rem);
   min-height: 100vh;
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 4rem 1rem 0;
   margin: 0 auto;
   background: transparent;
   color: #000;
-  overflow-x: hidden;
+  overflow: visible;
   text-align: center;
 }
 
@@ -29,6 +36,11 @@
   white-space: nowrap;
 }
 
+.clibalgo-list {
+  display: block;
+  margin-bottom: 1.5rem;
+}
+
 .clibalgo-page a {
   color: #000;
   text-decoration: none;
@@ -39,19 +51,111 @@
   font-weight: 400;
 }
 
+.return-home-link {
+  display: inline-block;
+  color: #000;
+  font-size: 1.35rem;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.return-home-link:hover,
+.return-home-link:focus-visible {
+  text-decoration: underline;
+}
+
+.return-home-link--logo {
+  width: clamp(2rem, 6vw, 10rem);
+  padding-bottom: 0.5rem;
+  font-size: clamp(2rem, 6vw, 10rem);
+  line-height: 1;
+  text-align: center;
+}
+
+.top-menu--has-page-title {
+  justify-content: space-between;
+}
+
+.top-menu--has-page-title.top-menu--scrolled {
+  left: 0;
+  right: 0;
+  width: auto;
+}
+
+.top-menu__page-title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 3rem;
+  color: #000;
+  font-size: 1.25rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.top-menu__page-title .return-home-link {
+  position: absolute;
+  left: 0.75rem;
+  font-size: 1.35rem;
+  pointer-events: auto;
+}
+
 .heyoli-page {
   box-sizing: border-box;
   width: min(100%, 72rem);
   min-height: 100vh;
-  padding: 0 1.5rem;
+  display: flex;
+  flex-direction: column;
+  padding: calc(env(safe-area-inset-top, 0px) + 4rem) 1.5rem 0;
   margin: 0 auto;
   color: #000;
   text-align: left;
 }
 
-.heyoli-page h1 {
-  font-weight: 400;
-  text-align: center;
+.heyoli-page__text {
+  margin-top: 1rem;
+}
+
+.top-menu__page-title--heyoli .return-home-link {
+  position: absolute;
+  left: 1.5rem;
+}
+
+.heyoli-page .contact-note {
+  width: 100vw;
+  margin-top: auto;
+  margin-left: calc(50% - 50vw);
+}
+
+.clibalgo-page .contact-note {
+  width: 100vw;
+  max-width: none;
+  flex: 1;
+  margin-top: auto;
+  margin-left: 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
+}
+
+.heyoli-page .link-block--logo {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+.clibalgo-page .link-block--logo {
+  width: 100vw;
+  max-width: none;
+  margin-left: 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  box-sizing: border-box;
 }
 
 .top-menu {
@@ -65,7 +169,7 @@
   justify-content: flex-end;
   min-height: calc(env(safe-area-inset-top, 0px) + 0rem);
   padding: calc(env(safe-area-inset-top, 0px) + 0.5rem) 0.75rem 0.5rem;
-  /* border-bottom: 3px solid #000; */
+  border-bottom: 0;
   background: transparent;
   letter-spacing: 0.08em;
   filter: blur(0);
@@ -75,7 +179,7 @@
 .top-menu--scrolled {
   left: auto;
   width: 4.5rem;
-  border-bottom-color: transparent;
+  border-bottom: 0;
   background: transparent;
 }
 
@@ -227,6 +331,7 @@
 }
 
 .coming-soon-section {
+  position: relative;
   width: 100%;
   min-height: clamp(18rem, 50vh, 34rem);
   display: flex;
@@ -237,16 +342,38 @@
   border-bottom: 1px solid #000;
 }
 
+.coming-soon-section__header {
+  position: absolute;
+  top: clamp(1rem, 1.5vw, 1.25rem);
+  left: clamp(1rem, 1.5vw, 1.25rem);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.coming-soon-section__header .return-home-link {
+  width: clamp(2rem, 6vw, 10rem);
+  padding-bottom: 0.5rem;
+  font-size: clamp(2rem, 6vw, 10rem);
+  text-align: center;
+}
+
+.coming-soon-section__logo {
+  width: clamp(2rem, 6vw, 10rem);
+  height: auto;
+  padding-bottom: 0.5rem;
+}
+
 .coming-soon-section__name {
   margin: 0;
-  font-size: clamp(2rem, 8vw, 7rem);
+  font-size: clamp(3rem, 10vw, 9rem);
   line-height: 0.95;
   font-weight: 400;
 }
 
 .coming-soon-section__text {
   margin: 0;
-  font-size: clamp(2rem, 10vw, 9rem);
+  font-size: clamp(3rem, 10vw, 9rem);
   line-height: 0.85;
   letter-spacing: 0;
 }
@@ -656,6 +783,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+
+.only-text--coming-soon .contact-note {
+  flex: 1;
 }
 
 .contact-note__email {

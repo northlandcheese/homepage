@@ -15,6 +15,7 @@ import dPhoto from './assets/d_photo.png'
 import TheClibLanding from './TheClibLanding'
 import HeyoliPage from './HeyoliPage'
 import ClibalgoPage from './ClibalgoPage'
+import ContactNote from './ContactNote'
 
 const comingSoonPages = {
   bandComingSoon: {
@@ -142,6 +143,8 @@ function App() {
   const comingSoonPage = comingSoonPages[currentPage]
   const showComingSoon = Boolean(comingSoonPage)
   const showNotFound = currentPage === 'notFound'
+  const showPageHeader = showHeyoli || showClibalgo || showComingSoon
+  const pageHeaderTitle = showHeyoli ? 'OLI你好' : showClibalgo ? '蟲社演算法' : ''
   const pageTitle = currentPage === 'members'
     ? '成員'
     : currentPage === 'services'
@@ -201,7 +204,15 @@ function App() {
           onFinish={() => setShowLanding(false)}
         />
       )}
-      <header className={`top-menu ${shouldBlurPage ? 'top-menu--masked' : ''} ${hasScrolled ? 'top-menu--scrolled' : ''}`}>
+      <header className={`top-menu ${shouldBlurPage ? 'top-menu--masked' : ''} ${hasScrolled ? 'top-menu--scrolled' : ''} ${showPageHeader ? 'top-menu--has-page-title' : ''}`}>
+        {showPageHeader && (
+          <div className={`top-menu__page-title ${showHeyoli ? 'top-menu__page-title--heyoli' : ''}`}>
+            <a className="return-home-link" href="/" onClick={(event) => routeToPage(event, 'home')} aria-label="Return to home">
+              ←
+            </a>
+            {pageHeaderTitle && <span>{pageHeaderTitle}</span>}
+          </div>
+        )}
         <button
           className={`hamburger-button ${isMenuOpen ? 'hamburger-button--open' : ''}`}
           type="button"
@@ -222,6 +233,12 @@ function App() {
           <a href="/" aria-current={currentPage === 'home' ? 'page' : undefined} onClick={(event) => routeToPage(event, 'home')}>
             首頁
           </a>
+          <a href="/heyoli" aria-current={currentPage === 'heyoli' ? 'page' : undefined} onClick={(event) => routeToPage(event, 'heyoli')}>
+            OLI你好
+          </a>
+          <a href="/clibalgo" aria-current={currentPage === 'clibalgo' ? 'page' : undefined} onClick={(event) => routeToPage(event, 'clibalgo')}>
+            蟲社演算法
+          </a>
           <a href="/members" aria-current={currentPage === 'members' ? 'page' : undefined} onClick={(event) => routeToPage(event, 'members')}>
             成員
           </a>
@@ -230,22 +247,24 @@ function App() {
           </a>
         </nav>
       </header>
-      {showHeyoli ? <HeyoliPage /> : showClibalgo ? <ClibalgoPage /> : <main
-        className={`only-text ${showServices ? 'only-text--services' : ''} ${shouldBlurPage ? 'only-text--masked' : ''}`}
+      {showHeyoli ? <HeyoliPage contactNote={<ContactNote />} /> : showClibalgo ? <ClibalgoPage contactNote={<ContactNote />} /> : <main
+        className={`only-text ${showServices ? 'only-text--services' : ''} ${showComingSoon ? 'only-text--coming-soon' : ''} ${shouldBlurPage ? 'only-text--masked' : ''}`}
         aria-label="Chūsha theclib at"
       >
         <div className="title-block">
           <div className="title-text-wrapper">
             <span className="title-text">{pageTitle}</span>
-            <img src={centeredLogo} alt="蟲社標誌" className="title-logo" />
+            {!showComingSoon && <img src={centeredLogo} alt="蟲社標誌" className="title-logo" />}
           </div>
-          <section className="description-box" aria-label="Intro description">
-            {pageSubtitle.map((subtitle) => (
-              <p key={subtitle}>{subtitle}</p>
-            ))}
-          </section>
+          {!showComingSoon && (
+            <section className="description-box" aria-label="Intro description">
+              {pageSubtitle.map((subtitle) => (
+                <p key={subtitle}>{subtitle}</p>
+              ))}
+            </section>
+          )}
         </div>
-        <hr className="title-divider" />
+        {!showComingSoon && <hr className="title-divider" />}
         {showHomeLinks && (
         <nav className="link-blocks" id="services" aria-label="Primary links">
           <a
